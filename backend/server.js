@@ -1,19 +1,42 @@
 import express from "express";
 import dotenv from "dotenv";
-import { sequelize } from "./config/database.js";
+import cors from "cors";
+
+import { sequelize } from "./models/index.js";
+import artisanRoutes from "./routes/artisanRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
 
-console.log("🔍 DB_PASSWORD =", process.env.DB_PASSWORD);
-console.log("🔍 Type =", typeof process.env.DB_PASSWORD);
-
 const app = express();
+console.log("🔥 CE SERVER.JS EST BIEN EXÉCUTÉ");
+
+app.use(cors());
 app.use(express.json());
 
-sequelize.authenticate()
-  .then(() => console.log("✅ PostgreSQL connecté"))
-  .catch(err => console.error("❌ Erreur connexion PostgreSQL :", err));
+// Routes
+app.use("/api/artisans", artisanRoutes);
+app.use("/api/categories", categoryRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log("🚀 Backend sur le port", process.env.PORT);
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
 });
+
+// Middleware d’erreur
+app.use(errorHandler);
+
+// Sync BDD puis démarrage serveur
+const port = process.env.PORT || 4000;
+
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log("✅ Modèles synchronisés avec la base PostgreSQL");
+    app.listen(port, () => {
+      console.log(`🚀 Backend sur le port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Erreur de synchronisation Sequelize :", err);
+  });

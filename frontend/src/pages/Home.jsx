@@ -17,33 +17,35 @@ function Home() {
         <h2 className="fw-bold text-center mb-4">Comment trouver mon artisan ?</h2>
 
         <div className="row g-4">
-          <div className="col-md-3">
+
+          <div className="col-md-3 h-100">
             <div className="step-box">
               <div className="step-number">1</div>
               <p>Choisir la catégorie d’artisanat dans le menu.</p>
             </div>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3 h-100">
             <div className="step-box">
               <div className="step-number">2</div>
               <p>Choisir un artisan.</p>
             </div>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3 h-100">
             <div className="step-box">
               <div className="step-number">3</div>
               <p>Le contacter via le formulaire de contact.</p>
             </div>
           </div>
 
-          <div className="col-md-3">
+          <div className="col-md-3 h-100">
             <div className="step-box">
               <div className="step-number">4</div>
               <p>Une réponse sera apportée sous 48h.</p>
             </div>
           </div>
+
         </div>
       </section>
 
